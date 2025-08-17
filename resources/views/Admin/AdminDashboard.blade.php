@@ -1,0 +1,1 @@
+<h1>Hi I'm admin dashboard</h1>
