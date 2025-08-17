@@ -463,3 +463,20 @@ header.fixed.main-header {
 
 /* Optional: dark overlay to make images look smoother */
 
+.register-section {
+  background: linear-gradient(135deg, #5b6ea3, #4f67ae);
+  color: #fff;
+}
+
+.register-box {
+  background: #ffffff;
+  color: #000;
+}
+
+.register-box h2 {
+  font-weight: bold;
+  color: #0044ff;
+}
+.link{
+  color: #0044ff;
+}

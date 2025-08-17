@@ -49,8 +49,7 @@
               <li><a href="#">Log Out</a></li>
               <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
-          </div>
-          
+          </div>          
         </div>
       </div>
     </nav>
