@@ -40,6 +40,9 @@ class RegisterController extends Controller
     {
         return view('auth.login');
     }
+    public function showDashboard(){
+        return view('admin.dashboard');
+    }
 
     public function login(Request $request)
 {
@@ -72,6 +75,6 @@ class RegisterController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/customer-login');
     }
 }

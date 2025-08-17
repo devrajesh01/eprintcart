@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
 article,
 aside,
 canvas,
@@ -114,7 +118,8 @@ body {
   font-size: 18px;
   color: #404d72;
   font-weight: 300;
-  font-family: "Bahnschrift";
+    font-family: "Poppins", sans-serif;
+
 }
 
 .common-padd {
@@ -160,7 +165,7 @@ p {
   line-height: 24px;
   color: #404d72;
   font-weight: 300;
-  font-family: "Bahnschrift";
+    font-family: "Poppins", sans-serif;
   margin: 0 0 20px;
   padding: 0;
 }
@@ -171,7 +176,7 @@ p {
   padding: 12px 10px;
   font-size: 16px;
   text-transform: capitalize;
-  font-family: "Bahnschrift";
+    font-family: "Poppins", sans-serif;
   font-weight: 500;
   border-radius: 6px;
   min-width: 160px;
@@ -249,7 +254,8 @@ span {
 .main-header .nav-link {
   font-size: 18px;
   color: #000000;
-  font-family: "Bahnschrift";
+    font-family: "Poppins", sans-serif;
+
 }
 
 .main-header .nav-link:hover {
@@ -479,4 +485,49 @@ header.fixed.main-header {
 }
 .link{
   color: #0044ff;
+}
+
+
+/* ==================cards */
+/* Card Styling */
+.product-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Image Wrapper for zoom effect */
+.card-img-wrapper {
+  overflow: hidden;
+}
+
+.card-img-wrapper img {
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .card-img-wrapper img {
+  transform: scale(1.1);
+}
+
+/* Button Styling */
+.btn-custom {
+  background: linear-gradient(135deg, #0044ff, #0066cc);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background: linear-gradient(135deg, #0066cc, #0044ff);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }

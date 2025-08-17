@@ -8,6 +8,6 @@ class AdminController extends Controller
 {
     //
     public function AdminIndex(Request $request){
-        return view('Admin.AdminDashboard');
+        return view('admin.AdminDashboard');
     }
 }

@@ -13,12 +13,12 @@ $(document).ready(function () {
   // banner slider
   $('.banner-slider').slick({
   autoplay: true,
-  autoplaySpeed: 3000, // time each slide stays
+  autoplaySpeed: 2000, 
   arrows: false,
   dots: false,
-  speed: 800, // animation speed
+  speed: 1200, 
   infinite: true,
-  cssEase: 'ease-in-out' // makes the slide smooth
+  cssEase: 'ease-in-out' 
 });
 
 });
