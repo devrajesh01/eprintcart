@@ -46,6 +46,7 @@
             <ul class="right-side">
               <li><a href="#">Login</a></li>
               <li><a href="#">Register</a></li>
+              <li><a href="#">Log Out</a></li>
               <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
           </div>
