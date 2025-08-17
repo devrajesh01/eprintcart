@@ -1,0 +1,438 @@
+article,
+aside,
+canvas,
+figure,
+figcaption,
+footer,
+header,
+nav,
+section,
+audio,
+video,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+a,
+button,
+input,
+input[type="buttton"],
+input[type="submit"],
+select,
+.btn,
+textarea {
+  -webkit-transition: 400ms all ease-in-out;
+  -o-transition: 400ms all ease-in-out;
+  transition: 400ms all ease-in-out;
+  text-decoration: none;
+  font-style: normal;
+}
+
+button {
+  border: none;
+}
+
+a:hover,
+a:focus,
+button:focus,
+input:focus,
+input[type="buttton"]:focus,
+input[type="submit"]:focus,
+select:focus,
+.btn:focus,
+textarea:focus,
+.bootstrap-select .dropdown-toggle:focus {
+  outline: none !important;
+  -webkit-box-shadow: none;
+  box-shadow: none !important;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a,
+label,
+span {
+  display: inline-block;
+  vertical-align: middle;
+  vertical-align: 0;
+  color: inherit;
+}
+
+figure {
+  -webkit-transition: all ease 0.4s;
+  -o-transition: all ease 0.4s;
+  transition: all ease 0.4s;
+  margin: 0;
+  font-size: 0;
+  line-height: 100%;
+}
+
+figure img {
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+
+
+
+
+/* global */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  color: #404d72;
+  font-weight: 300;
+  font-family: "Bahnschrift";
+}
+
+.common-padd {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 50px;
+}
+
+h3 {
+  font-size: 38px;
+}
+
+h4 {
+  font-size: 35px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+p {
+  font-size: 18px;
+  line-height: 24px;
+  color: #404d72;
+  font-weight: 300;
+  font-family: "Bahnschrift";
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+/* --- Button Styles --- */
+.btnn {
+  border: 1px solid transparent;
+  padding: 12px 10px;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-family: "Bahnschrift";
+  font-weight: 500;
+  border-radius: 6px;
+  min-width: 160px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnn-blue {
+  background-color: #0044ff;
+  color: #fff;
+  border: 1px solid #0000;
+}
+
+.btnn-blue:hover {
+  background-color: #fff;
+  color: #0044ff;
+  border: 1px solid #0044ff;
+}
+
+.btnn-border {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  min-width: 200px;
+}
+
+.btnn-border:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.btnn-bl-border {
+  border: 1px solid rgb(0 0 0 / 50%);
+  color: rgb(0 0 0 / 50%);
+  min-width: 190px;
+}
+
+.btnn-bl-border:hover {
+  color: #000000;
+  border: 1px solid #000;
+}
+
+
+a,
+label,
+span {
+  display: inline-block;
+  vertical-align: middle;
+  vertical-align: 0;
+  color: inherit;
+}
+
+/* header */
+.main-header {
+  position: relative;
+  background-color: #fff;
+  transition: all 0.8s ease;
+}
+
+.main-header .offcanvas-body {
+  justify-content: end;
+}
+
+
+
+.main-header .nav-item {
+  margin-left: 15px;
+}
+
+.main-header .nav-item:first-child {
+  margin-left: 0;
+}
+
+.main-header .nav-link {
+  font-size: 18px;
+  color: #000000;
+  font-family: "Bahnschrift";
+}
+
+.main-header .nav-link:hover {
+  color: #0044ff;
+}
+
+.main-header .offcanvas-body ul li.active a {
+  color: #0044ff;
+}
+
+.main-header .navbar-brand {
+  max-width: 80px;
+}
+
+/* header */
+
+
+/* headrer-fixed */
+header.fixed.main-header {
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  background-color: #fff;
+}
+
+
+
+
+/* < !-- footer-section --> */
+.main-footer {
+  background-color: #F0F2FF;
+  padding: 80px 0 55px 0;
+  position: relative;
+}
+
+.foot-bott-p {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  margin-right: 50px;
+}
+
+.foot-top-p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: -60px;
+}
+
+.company-wrap {
+  margin-left: 50px;
+}
+
+.link-wrap.sec {
+  margin-left: 60px;
+}
+
+.link-wrap {
+  margin-left: 50px;
+}
+
+
+.upper-footer {
+  border-bottom: 1px solid #404d7230;
+  ;
+  padding-bottom: 30px;
+}
+
+.foot-logo {
+  max-width: 117px;
+  margin-bottom: 15px;
+}
+
+.foot-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-wrap p {
+  max-width: 287px;
+  margin-bottom: 10px;
+}
+
+.upper-footer h5 {
+  color: #404D72;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.upper-footer ul li {
+  font-size: 16px;
+  font-weight: 400;
+  color: #404D72;
+  margin-bottom: 10px;
+}
+
+.foot-logo-wrap ul li i {
+  margin-right: 13px;
+  color: #000;
+}
+
+.upper-footer ul li a {
+  font-size: 16px;
+  font-weight: 400;
+  color: #404d72;
+}
+
+.foot-logo-wrap ul li:hover a {
+  color: #0044ff;
+}
+
+.foot-logo-wrap ul li:hover i {
+  color: #0044ff;
+}
+
+.upper-footer ul li a:hover {
+  color: #0044ff;
+}
+
+.lower-footer p {
+  margin-bottom: 0;
+  margin-top: 40px;
+  font-weight: 400;
+}
+
+.lower-footer {
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  padding-left: 2px;
+  text-transform: uppercase;
+}
+
+.logo img {
+  width: 60px;
+  height: auto;
+  object-fit: contain;
+}
+
+.social-wrap {
+  display: flex;
+  gap: 10px;
+}
+
+.social-wrap a {
+  width: 40px;
+  height: 40px;
+  background: #0044ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff !important;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+.social-wrap a:hover{
+  background: transparent;
+  border: 1px solid #0044ff;
+  color: #0044ff !important;
+}
+.address p{
+  margin: 0 0 8px;
+}
+.address a{
+  color: #0044ff;
+}
+
+/* < !-- footer-section --> */
+
+.offcanvas-body{
+  justify-content: space-around !important;
+}
+.right-side{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+}
