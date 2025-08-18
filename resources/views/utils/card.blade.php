@@ -12,7 +12,7 @@
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 1</h5>
             <p class="card-text text-muted">Short description about product 1 goes here.</p>
-            <a href="#" class="btn btn-custom">View Details</a>
+            {{-- <a href="{{ route('product.page', ['p_id' => $product->id]) }}" class="btn btn-custom">View Details</a> --}}
           </div>
         </div>
       </div>

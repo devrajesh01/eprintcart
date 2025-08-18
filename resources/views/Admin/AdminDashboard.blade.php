@@ -9,12 +9,12 @@
       <h4 class="mb-4">Dashboard</h4>
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <a href="#" class="nav-link text-white">
+          <a href="{{route('list.products')}}" class="nav-link text-white">
             <i class="fa-solid fa-user me-2"></i> Products
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="#" class="nav-link text-white">
+          <a href="{{route ('add.product')}}" class="nav-link text-white">
             <i class="fa-solid fa-user me-2"></i> Add Products
           </a>
         </li>
@@ -50,7 +50,7 @@
     <div class="col-md-9 col-lg-10 p-4">
       <h2 class="mb-4">Welcome </h2>
 
-      <div class="card shadow-sm mb-4">
+      {{-- <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title">Your Information</h5>
           <p><strong>Name:</strong> </p>
@@ -64,7 +64,10 @@
           <h5 class="card-title">Recent Activity</h5>
           <p>No recent activity yet.</p>
         </div>
-      </div>
+      </div> --}}
+
+      @yield('dashboardcontent')
+      @yield('addproduct')
     </div>
 
   </div>
