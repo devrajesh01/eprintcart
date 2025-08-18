@@ -9,12 +9,13 @@
       <h4 class="mb-4">Dashboard</h4>
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <a href="{{route('list.products')}}" class="nav-link text-white">
+          <a href="{{route('list.products')}}" class="nav-link text-white {{ Route::is('list.products*') ? 'active' : '' }}"
+          >
             <i class="fa-solid fa-user me-2"></i> Products
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="{{route ('add.product')}}" class="nav-link text-white">
+          <a href="{{route ('add.product')}}" class="nav-link text-white {{ Route::is('add.product*') ? 'active' : '' }}">
             <i class="fa-solid fa-user me-2"></i> Add Products
           </a>
         </li>
@@ -24,12 +25,12 @@
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="#" class="nav-link text-white">
+          <a href="#" class="nav-link text-white ">
             <i class="fa-solid fa-clipboard-list me-2"></i> Orders
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="#" class="nav-link text-white">
+          <a href="#" class="nav-link text-white ">
             <i class="fa-solid fa-cog me-2"></i> Settings
           </a>
         </li>

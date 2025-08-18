@@ -18,8 +18,8 @@
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <li class="nav-item {{Route::is('home*')? 'active': ''}}">
+                <a class="nav-link " aria-current="page" href="{{route('home')}}">Home</a>
               </li>             
 
             <li class="nav-item">
@@ -56,7 +56,6 @@
               @csrf
             </form>
             @endauth
-
             <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
           </ul>
         </div>

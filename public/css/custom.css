@@ -132,7 +132,7 @@ h1 {
 }
 
 h2 {
-  font-size: 50px;
+  font-size: 30px;
 }
 
 h3 {
@@ -140,7 +140,7 @@ h3 {
 }
 
 h4 {
-  font-size: 35px;
+  font-size: 30px;
 }
 
 h5 {
@@ -456,6 +456,7 @@ header.fixed.main-header {
   padding: 30px 0;
 }
 
+
 /* Make sure slider images fit properly */
 .banner-slider img {
   width: 100%;
@@ -530,4 +531,47 @@ header.fixed.main-header {
   background: linear-gradient(135deg, #0066cc, #0044ff);
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.table-dark th{
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.card-img-wrapper{
+  height: 250px;
+}
+.card-img-wrapper img{
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.hero-banner {
+  position: relative;
+  min-height: 70vh;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+}
+
+.hero-banner .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgb(25 31 47 / 77%);
+}
+
+.hero-banner .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Responsive text */
+.hero-banner h1 {
+  font-size: 3rem;
+}
+
+.hero-banner p {
+  font-size: 1.25rem;
 }

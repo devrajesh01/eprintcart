@@ -14,5 +14,8 @@ class HomeController extends Controller
         $product = Product::all();
         return view('product.productpage',compact('product'));
     }
+    public function showMugDesign(){
+        return view('product.mug');
+    }
     
 }

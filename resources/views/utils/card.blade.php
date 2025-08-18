@@ -7,7 +7,7 @@
       <div class="col-md-6 col-lg-3">
         <div class="card product-card h-100">
           <div class="card-img-wrapper">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Product 1">
+            <img src="{{asset('images/frame1.webp')}}" class="card-img-top" alt="Product 1">
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 1</h5>
@@ -21,7 +21,7 @@
       <div class="col-md-6 col-lg-3">
         <div class="card product-card h-100">
           <div class="card-img-wrapper">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Product 2">
+            <img src="{{asset('images/frame1.webp')}}" class="card-img-top" alt="Product 2">
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 2</h5>
@@ -35,7 +35,7 @@
       <div class="col-md-6 col-lg-3">
         <div class="card product-card h-100">
           <div class="card-img-wrapper">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Product 3">
+            <img src="{{asset('images/frame1.webp')}}" class="card-img-top" alt="Product 3">
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 3</h5>
@@ -49,7 +49,7 @@
       <div class="col-md-6 col-lg-3">
         <div class="card product-card h-100">
           <div class="card-img-wrapper">
-            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Product 4">
+            <img src="{{asset('images/frame1.webp')}}" class="card-img-top" alt="Product 4">
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 4</h5>
