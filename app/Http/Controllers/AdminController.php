@@ -51,6 +51,65 @@ class AdminController extends Controller
     public function ListProductPage(Request $request)
     {
         $products = Product::all();
-        return view('Admin.ListProducts',compact('products'));
+        return view('Admin.ListProducts', compact('products'));
+    }
+
+    public function EditProduct(Request $request, $id)
+    {
+
+        $product = Product::findOrFail(($id));
+
+        return view('Admin.EditProduct', compact('product'));
+    }
+
+    public function UpdateProduct(Request $request, $id)
+    {
+
+        $request->validate([
+
+            'product_name' => 'required|string|max:255',
+            'product_category' => 'required|string|max:255',
+            'product_price' => 'required|numeric|min:0',
+            'product_quantity' => 'required|integer|min:1',
+            'product_description' => 'nullable|string',
+            'product_image' => 'nullable|image|mimes:jpg,jpeg,png|max:10048',
+
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        $product->product_name = $request->product_name;
+        $product->product_category = $request->product_category;
+        $product->product_price = $request->product_price;
+        $product->product_quantity = $request->product_quantity;
+        $product->product_description = $request->product_description;
+
+        if ($request->hasFile('product_image')) {
+            if ($product->product_image && file_exists(public_path('uploads/products/' . $product->product_image))) {
+                unlink(public_path('uploads/products/' . $product->product_image));
+            }
+
+            $image = $request->file('product_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/products'), $imageName);
+
+            $product->product_image = $imageName;
+        }
+        $product->save();
+
+        return redirect()->route('list.products')->with('success', 'Product update succesfully.');
+    }
+
+    
+    public function DeleteProduct(Request $request, $id)
+    {
+
+        $product = Product::findOrFail($id);
+        if ($product->product_image && file_exists(public_path('uploads/products/' . $product->product_image))) {
+            unlink(public_path('uploads/products/' . $product->product_image));
+        }
+        $product->delete();
+
+        return redirect()->route('list.products')->with('success', 'Product deleted successfully');
     }
 }

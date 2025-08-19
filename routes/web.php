@@ -18,9 +18,12 @@ Route::post('logout/', [RegisterController::class, 'logout'])->name('logout');
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
-Route::get('/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
+Route::get('/admin/dashboard/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
 Route::post('/store-data', [AdminController::class,'StoreProducts'])->name('products.store');
-Route::get('/product-list',[AdminController::class,'ListProductPage'])->name('list.products');
+Route::get('/admin/dashboard/product-list',[AdminController::class,'ListProductPage'])->name('list.products');
+Route::get('/admin/dashboard/product-list/edit-product/{id}',[AdminController::class, 'EditProduct'])->name('product.edit');
+Route::put('/admin/dashboard/product-list/update-product/{id}',[AdminController::class, 'UpdateProduct'])->name('product.update');
+Route::delete('/delete-product/{id}',[AdminController::class, 'DeleteProduct'])->name('product.delete');
 
 Route::get('product/{p_id}', [HomeController::class, 'productPage'])->name('product.page');
 Route::get('/mugdesign',[HomeController::class, 'showMugDesign'])->name('mugdesign');

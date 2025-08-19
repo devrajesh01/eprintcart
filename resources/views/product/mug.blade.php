@@ -47,53 +47,61 @@ background: url('{{ asset('images/mug-image.avif') }}') center/cover no-repeat;
 </section>
 
 <!-- Products Section -->
-<section class="products py-5">
-  <div class="container">
+<div class="container py-5">
+    <h1 class="text-center mb-5">✨ Choose Your Frame ✨</h1>
     <div class="row g-4">
-      <!-- Product 1 -->
-      <div class="col-md-4 col-sm-6">
-        <div class="card shadow-sm h-100 text-center">
-          <img src="{{ asset('images/mug.jpg') }}" 
-               class="card-img-top" alt="Mug Design"
-               style="height:250px; object-fit:cover;">
-          <div class="card-body">
-            <h5 class="card-title">Custom Mug</h5>
-            <p class="text-muted">₹299</p>
-            <a href="/design/mug" class="btn btn-primary w-100 rounded-pill">Design Now</a>
+
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <a href="editor.html?frame=images/frame1.jpg" class="text-decoration-none">
+          <div class="card frame-card" style="animation-delay: 0.1s">
+            <img src="images/frame1.jpg" class="card-img-top" alt="Frame A">
+            <div class="card-body">
+              <h5>Customize Design</h5>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Product 2 -->
-      <div class="col-md-4 col-sm-6">
-        <div class="card shadow-sm h-100 text-center">
-          <img src="{{ asset('images/tshirt.jpg') }}" 
-               class="card-img-top" alt="T-shirt Design"
-               style="height:250px; object-fit:cover;">
-          <div class="card-body">
-            <h5 class="card-title">Custom T-shirt</h5>
-            <p class="text-muted">₹499</p>
-            <a href="/design/tshirt" class="btn btn-primary w-100 rounded-pill">Design Now</a>
-          </div>
-        </div>
+        </a>
       </div>
 
-      <!-- Product 3 -->
-      <div class="col-md-4 col-sm-6">
-        <div class="card shadow-sm h-100 text-center">
-          <img src="{{ asset('images/photo-frame.jpg') }}" 
-               class="card-img-top" alt="Photo Frame"
-               style="height:250px; object-fit:cover;">
-          <div class="card-body">
-            <h5 class="card-title">Photo Frame</h5>
-            <p class="text-muted">₹399</p>
-            <a href="/design/frame" class="btn btn-primary w-100 rounded-pill">Design Now</a>
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <a href="editor.html?frame=images/frame2.jpg" class="text-decoration-none">
+          <div class="card frame-card" style="animation-delay: 0.2s">
+            <img src="images/frame2.jpg" class="card-img-top" alt="Frame B">
+            <div class="card-body">
+              <h5>Customize Design</h5>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <a href="editor.html?frame=images/frame3.jpg" class="text-decoration-none">
+          <div class="card frame-card" style="animation-delay: 0.3s">
+            <img src="fimages/frame3.jpg" class="card-img-top" alt="Frame C">
+            <div class="card-body">
+               <h5>Customize Design</h5>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <a href="editor.html?frame=images/frame4.jpg" class="text-decoration-none">
+          <div class="card frame-card" style="animation-delay: 0.4s">
+            <img src="images/frame4.jpg" class="card-img-top" alt="Frame D">
+            <div class="card-body">
+              <h5>Customize Design</h5>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
-</section>
+
 
 <style>
 .step-box {

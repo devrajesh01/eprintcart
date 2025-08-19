@@ -6,12 +6,12 @@
     
     <!-- Sidebar -->
     <div class="col-md-3 col-lg-2 bg-dark text-white min-vh-100 p-3">
-      <h4 class="mb-4">Dashboard</h4>
+      <h4 class="mb-3">Dashboard</h4>
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
           <a href="{{route('list.products')}}" class="nav-link text-white {{ Route::is('list.products*') ? 'active' : '' }}"
           >
-            <i class="fa-solid fa-user me-2"></i> Products
+            <i class="fa-solid fa-user me-2"></i> All Products
           </a>
         </li>
         <li class="nav-item mb-2">
@@ -49,7 +49,7 @@
 
     <!-- Main Content -->
     <div class="col-md-9 col-lg-10 p-4">
-      <h2 class="mb-4">Welcome </h2>
+      <h2 class="mb-1">Welcome </h2>
 
       {{-- <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -69,6 +69,7 @@
 
       @yield('dashboardcontent')
       @yield('addproduct')
+      @yield('editProduct')
     </div>
 
   </div>
