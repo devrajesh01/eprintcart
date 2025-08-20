@@ -1,4 +1,4 @@
-<section class="py-5 bg-light">
+{{-- <section class="py-5 bg-light">
   <div class="container">
     <h2 class="text-center mb-5 fw-bold">Our Products</h2>
     <div class="row g-4">
@@ -12,7 +12,7 @@
           <div class="card-body text-center">
             <h5 class="card-title fw-bold">Product 1</h5>
             <p class="card-text text-muted">Short description about product 1 goes here.</p>
-            {{-- <a href="{{ route('product.page', ['p_id' => $product->id]) }}" class="btn btn-custom">View Details</a> --}}
+            <a href="{{ route('product.page', ['p_id' => $product->id]) }}" class="btn btn-custom">View Details</a>
           </div>
         </div>
       </div>
@@ -61,5 +61,34 @@
 
     </div>
   </div>
-</section>
+</section> --}}
     
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold">Our Products</h2>
+    <div class="row g-4">
+
+      @foreach($products as $product)
+        <div class="col-md-6 col-lg-3">
+          <div class="card product-card h-100">
+            <div class="card-img-wrapper">
+              <img src="{{ asset('uploads/products/' . $product->product_image) }}" 
+                   class="card-img-top" 
+                   alt="{{ $product->product_name }}">
+            </div>
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">{{ $product->product_name }}</h5>
+              <p class="card-text text-muted">{{ $product->product_description }}</p>
+              <a href="{{ route('product.page', ['id' => $product->id]) }}" class="btn btn-custom">
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+

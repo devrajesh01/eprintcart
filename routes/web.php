@@ -16,7 +16,7 @@ Route::post('login', [RegisterController::class,'login'])->name('login-data');
 Route::get('/admin/dashboard', [AdminController::class, 'AdminIndex'])->name('admin.dashboard');
 Route::post('logout/', [RegisterController::class, 'logout'])->name('logout');
 
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/check-out', [PaymentController::class, 'index'])->name('checkout');
 Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
 Route::get('/admin/dashboard/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
 Route::post('/store-data', [AdminController::class,'StoreProducts'])->name('products.store');
@@ -25,5 +25,9 @@ Route::get('/admin/dashboard/product-list/edit-product/{id}',[AdminController::c
 Route::put('/admin/dashboard/product-list/update-product/{id}',[AdminController::class, 'UpdateProduct'])->name('product.update');
 Route::delete('/delete-product/{id}',[AdminController::class, 'DeleteProduct'])->name('product.delete');
 
-Route::get('product/{p_id}', [HomeController::class, 'productPage'])->name('product.page');
+Route::get('product/{id}', [HomeController::class, 'productPage'])->name('product.page');
+
 Route::get('/mugdesign',[HomeController::class, 'showMugDesign'])->name('mugdesign');
+
+Route::get('/about-page',[HomeController::class, 'AboutPage'])->name('about.page');
+Route::get('/contact-page',[HomeController::class, 'ContactPage'])->name('contact.page');

@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PaymentService;
 use Illuminate\Http\Request;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
+    protected $paymentService;
+
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
+
     // Show payment form
     public function index()
     {
@@ -17,25 +23,27 @@ class PaymentController extends Controller
     // Handle payment
     public function createPayment(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|numeric|min:1',
-            'payment_method_id' => 'required|string',
+        $data = $request->validate([
+            'product_id'       => 'required|integer',
+            'product_image'    => 'required|string',
+            'product_quantity' => 'required|integer|min:1',
+            'amount'           => 'required|numeric|min:1',
+            'address'          => 'required|string',
+            'paymentMethodId'  => 'required|string',
         ]);
 
-        Stripe::setApiKey(config('services.stripe.secret'));
-
         try {
-            $paymentIntent = PaymentIntent::create([
-                'amount' => $request->amount * 100, // amount in cents
-                'currency' => 'usd',
-                'payment_method' => $request->payment_method_id,
-                'confirmation_method' => 'manual',
-                'confirm' => true,
-            ]);
+            $paymentIntent = $this->paymentService->createPayment($data);
 
-            return response()->json(['success' => true, 'paymentIntent' => $paymentIntent]);
+            return response()->json([
+                'success' => true,
+                'paymentIntent' => $paymentIntent,
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 }
