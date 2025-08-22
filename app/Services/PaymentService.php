@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Models\Payment;
@@ -10,35 +9,55 @@ class PaymentService
 {
     public function __construct()
     {
-        // Set Stripe secret key from config/services.php
         Stripe::setApiKey(config('services.stripe.secret'));
     }
 
-    public function createPayment($data)
+    /**
+     * $payload = [
+     *   'user_id', 'product_id', 'product_image', 'product_quantity',
+     *   'amount', 'currency' => 'usd', 'address', 'paymentMethodId' // 'cod' or 'pm_xxx'
+     * ]
+     */
+    public function createPayment(array $payload)
     {
-        // 1. Create Stripe PaymentIntent
+        // COD flow (no Stripe)
+        if ($payload['paymentMethodId'] === 'cod') {
+            $payment = Payment::create([
+                'user_id'           => $payload['user_id'],
+                'product_id'        => $payload['product_id'],
+                'product_image'     => $payload['product_image'] ?? null,
+                'product_quantity'  => $payload['product_quantity'],
+                'amount'            => $payload['amount'],
+                'currency'          => $payload['currency'] ?? 'usd',
+                'address'           => $payload['address'],
+                'stripe_payment_id' => null,
+                'status'            => 'pending',
+            ]);
+
+            return ['type' => 'cod', 'payment' => $payment];
+        }
+
+        // Stripe flow (expects real pm_xxx from Stripe.js)
         $paymentIntent = PaymentIntent::create([
-            'amount' => $data['amount'] * 100, // Stripe works in cents
-            'currency' => 'usd',
-            'payment_method' => $data['paymentMethodId'],
-            'confirmation_method' => 'manual',
-            'confirm' => true,
+            'amount'               => (int) round($payload['amount'] * 100),
+            'currency'             => $payload['currency'] ?? 'usd',
+            'payment_method'       => $payload['paymentMethodId'],
+            'confirmation_method'  => 'manual',
+            'confirm'              => true,
         ]);
 
-        // 2. Save payment details in your database
-        Payment::create([
-            // 'user_id' => auth()->id(),
-            'product_id' => $data['product_id'],
-            'product_image' => $data['product_image'],
-            'product_quantity' => $data['product_quantity'],
-            'amount' => $data['amount'],
-            'currency' => 'usd',
-            'address' => $data['address'],
+        $payment = Payment::create([
+            'user_id'           => $payload['user_id'],
+            'product_id'        => $payload['product_id'],
+            'product_image'     => $payload['product_image'] ?? null,
+            'product_quantity'  => $payload['product_quantity'],
+            'amount'            => $payload['amount'],
+            'currency'          => $payload['currency'] ?? 'usd',
+            'address'           => $payload['address'],
             'stripe_payment_id' => $paymentIntent->id,
-            'status' => $paymentIntent->status,
+            'status'            => $paymentIntent->status, // 'succeeded', 'requires_action', etc.
         ]);
 
-        // 3. Return Stripe response
-        return $paymentIntent;
+        return ['type' => 'stripe', 'paymentIntent' => $paymentIntent, 'payment' => $payment];
     }
 }

@@ -30,13 +30,15 @@ Route::get('/terms-conditions',[HomeController::class, 'showTerms'] )->name('ter
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/check-out', [PaymentController::class, 'index'])->name('checkout');
+    Route::get('/check-out/{id}', [PaymentController::class, 'index'])->name('checkout');
     Route::post('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
     Route::get('product/{id}', [HomeController::class, 'productPage'])->name('product.page');
     Route::get('/mugdesign', [HomeController::class, 'showMugDesign'])->name('mugdesign');
+
     Route::get('/order/thankyou/{id}', function(){
         return view('product.thankyou');
     })->name('thankyou');
+
     Route::get('cart', function(){
         return view('product.cart');
     })->name('add.cart');
