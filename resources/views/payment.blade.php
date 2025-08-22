@@ -1,56 +1,130 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Stripe Payment</title>
-    <script src="https://js.stripe.com/v3/"></script>
-</head>
-<body>
-    <h2>Stripe Payment Demo</h2>
+  @extends('layout.masterlayout')
+  @section('content')
+  
+  
+  <div class="container mt-4">
+    
+    <div class="row g-4">
+      
+      <!-- Left Side: Form -->
+      <div class="col-lg-8">
+        <div class="checkout-card">
+          <h3 class="checkout-title">Checkout</h3>
 
-    <form id="payment-form">
-        <label for="card-element">Credit or debit card</label>
-        <div id="card-element"></div>
-        <input type="hidden" id="amount" value="10"> <!-- Amount in USD -->
-        <button id="submit">Pay $10</button>
-    </form>
+          <!-- Product Preview -->
+          <div class="product-preview">
+            <img src="https://via.placeholder.com/70" alt="Product">
+            <div>
+              <h6 class="mb-1">Custom Designed Cup</h6>
+              <small class="text-muted">1 × $24.99</small>
+            </div>
+          </div>
 
-    <div id="payment-result"></div>
-</body>
- <script>
-        const stripe = Stripe("{{ config('services.stripe.key') }}");
-        const elements = stripe.elements();
-        const card = elements.create('card');
-        card.mount('#card-element');
+          <!-- Billing Information -->
+          <h5 class="mb-3">Billing Details</h5>
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" placeholder="John">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" placeholder="Doe">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="you@example.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control" placeholder="1234 Main St">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" placeholder="New York">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">State</label>
+                <select class="form-select">
+                  <option>Choose...</option>
+                  <option>NY</option>
+                  <option>CA</option>
+                  <option>TX</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Zip</label>
+                <input type="text" class="form-control" placeholder="10001">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
-        const form = document.getElementById('payment-form');
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
+      <!-- Right Side: Order Summary + Payment -->
+      <div class="col-lg-4">
+        <div class="order-summary">
+          <h5>Order Summary</h5>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Custom Cup x 1</span>
+              <strong>$24.99</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Shipping</span>
+              <strong>$4.99</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Tax</span>
+              <strong>$2.00</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Total</strong>
+              <strong>$31.98</strong>
+            </li>
+          </ul>
 
-            const {paymentMethod, error} = await stripe.createPaymentMethod('card', card);
+          <!-- Payment Method -->
+          <h5 class="mt-4">Payment Method</h5>
+          <form>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentMethod" checked>
+              <label class="form-check-label">Credit Card</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="paymentMethod">
+              <label class="form-check-label">PayPal</label>
+            </div>
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="radio" name="paymentMethod">
+              <label class="form-check-label">Cash on Delivery</label>
+            </div>
 
-            if (error) {
-                document.getElementById('payment-result').innerText = error.message;
-                return;
-            }
+            <div class="mb-3">
+              <label class="form-label">Name on Card</label>
+              <input type="text" class="form-control" placeholder="John Doe">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Card Number</label>
+              <input type="text" class="form-control" placeholder="xxxx-xxxx-xxxx-1234">
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Expiration</label>
+                <input type="text" class="form-control" placeholder="MM/YY">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">CVV</label>
+                <input type="text" class="form-control" placeholder="123">
+              </div>
+            </div>
 
-            const response = await fetch("{{ route('payment.create') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({
-                    payment_method_id: paymentMethod.id,
-                    amount: document.getElementById('amount').value
-                })
-            });
+            <button class="btn btn-primary btn-lg w-100 mt-4" type="submit">Place Order</button>
+          </form>
+        </div>
+      </div>
 
-            const data = await response.json();
-            if (data.success) {
-                document.getElementById('payment-result').innerText = "Payment Successful! ID: " + data.paymentIntent.id;
-            } else {
-                document.getElementById('payment-result').innerText = "Error: " + data.message;
-            }
-        });
-    </script>
-</html>
+    </div>
+  </div>
+  @endsection
