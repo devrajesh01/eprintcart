@@ -634,6 +634,7 @@ header.fixed.main-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-direction: column;
     }
     @keyframes fadeUp {
       from { transform: translateY(20px); opacity: 0; }
