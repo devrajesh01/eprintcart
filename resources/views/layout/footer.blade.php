@@ -22,40 +22,32 @@
             <div class="company-wrap">
               <h5>Company</h5>
               <ul>
-                <li><a href="#">About Us</a> </li>
-                <li> <a href="#">Privacy Policy</a></li>
-                <li> <a href="#">Terms & Conditions</a></li>
-                
+                <li><a  href="{{route('about.page')}}">About Us</a> </li>
+                <li> <a href="{{route('privacy.page')}}">Privacy Policy</a></li>
+                <li> <a href="{{route('terms.page')}}">Terms & Conditions</a></li>                
               </ul>
             </div>
           </div>
-
           <div class="col-md-2">
             <div class="link-wrap">
               <h5>Support</h5>
               <ul>
-                <li><a href="javascript:void(0)">Contact Us</a></li>
-                <li><a href="javascript:void(0)">Profile</a></li>
-               
+                <li><a href="{{route('contact.page')}}">Contact Us</a></li>
+                <li><a href="javascript:void(0)">Profile</a></li>               
               </ul>
-
             </div>
           </div>
-
           <div class="col-md-4">
             <div class="link-wrap sec address">
               <h5>Address</h5>
               <p>Contact Number: <a href="tel:8274074022">8274074022</a></p>
               <p>Email ID: <a href="mailto:eprintcart24x7@gmail.com">eprintcart24x7@gmail.com</a></p>
               <p>Address: 6 Nalta Subhas Sarani, Dum Dum Cantonment, Kolkata</p>
-              <p>PIN Code: 700028</p>
-              
+              <p>PIN Code: 700028</p>              
             </div>
           </div>
-
         </div>
       </div>
-
       <div class="lower-footer">
         <p>Copyright 2025 Eprintcart . All Right Reserved</p>
       </div>
@@ -65,3 +57,4 @@
       <img src="{{asset('images/foot-up-1.png')}}" alt="">
     </div>
   </footer>
+  

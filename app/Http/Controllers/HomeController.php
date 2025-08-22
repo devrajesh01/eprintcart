@@ -33,4 +33,13 @@ class HomeController extends Controller
     public function ContactPage(Request $request){
         return view('pages.contactus');
     }
+    public function showShop(Request $request){
+        return view('product.shop');
+    }
+    public function showPrivacy(Request $request){
+        return view('pages.privacy');
+    }
+    public function showTerms(Request $request){
+        return view('pages.terms');
+    }
 }

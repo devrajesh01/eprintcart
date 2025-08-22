@@ -20,17 +20,18 @@
             <ul class="navbar-nav">
               <li class="nav-item {{Route::is('home*')? 'active': ''}}">
                 <a class="nav-link " aria-current="page" href="{{route('home')}}">Home</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link {{Route::is('shop*')? 'active': ''}}" href="{{route('shop')}}">Mug</a>
               </li>             
               <li class="nav-item {{Route::is('about.page*')? 'active': ''}}">
                 <a class="nav-link" href="{{route('about.page')}}"> About </a>
               </li>              
               <li class="nav-item">
-                <a class="nav-link" href="#">Policy Consultations </a>
+                <a class="nav-link {{Route::is('shop*')? 'active': ''}}" href="{{route('shop')}}">Shop </a>
               </li>
               
-              <li class="nav-item ">
-                <a class="nav-link" href="event.html">Events</a>
-              </li>
+              
               <li class="nav-item {{Route::is('contact.page*')? 'active': ''}}">
                 <a class="nav-link" href="{{route('contact.page')}}">Contact</a>
               </li>

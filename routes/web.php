@@ -5,15 +5,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes (No Authentication Required)
 |--------------------------------------------------------------------------
 */
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('register-data', [RegisterController::class, 'register'])->name('register.store');
 
@@ -23,7 +20,9 @@ Route::post('login', [RegisterController::class, 'login'])->name('login-data');
 Route::post('logout/', [RegisterController::class, 'logout'])->name('logout');
 Route::get('/about-page', [HomeController::class, 'AboutPage'])->name('about.page');
 Route::get('/contact-page', [HomeController::class, 'ContactPage'])->name('contact.page');
-
+Route::get('/shop',[HomeController::class, 'showShop'] )->name('shop');
+Route::get('/privacy-policy',[HomeController::class, 'showPrivacy'] )->name('privacy.page');
+Route::get('/terms-conditions',[HomeController::class, 'showTerms'] )->name('terms.page');
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +45,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 /*
 |--------------------------------------------------------------------------
 | Admin Routes (Must be logged in + role = admin)
+2
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {

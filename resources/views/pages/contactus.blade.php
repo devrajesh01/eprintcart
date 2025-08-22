@@ -1,13 +1,19 @@
 @extends('layout.masterlayout')
 @section('content')
 
-  <div class="container">
-
-    <!-- Header -->
-    <div class="contact-header">
-      <h1>Contact Us</h1>
+  
+<section class="">
+<div class="contact-header common-banner">
+   <h1>Contact Us</h1>
       <p class="lead">We’d love to hear from you! Reach out with any questions, feedback, or just to say hi.</p>
     </div>
+</div>
+
+
+    <!-- Header -->
+    
+     
+    <div class="container">
 
     <div class="row g-4">
       
@@ -56,6 +62,7 @@
       
     </div>
   </div>
+  </section>
 
 
 @endsection
