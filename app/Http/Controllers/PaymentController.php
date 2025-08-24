@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Redis;
 
 class PaymentController extends Controller
 {
@@ -22,87 +24,70 @@ class PaymentController extends Controller
     {
         $order_product = Product::findOrFail($id);
         $customer = auth()->user();
-        return view('payment', compact('order_product', 'customer'));
+        $quantity = $request->input('quantity', 1);
+        return view('payment', compact('order_product', 'customer', 'quantity'));
     }
 
+   public function checkOutAll(Request $request)
+{
+    $customer = auth()->user(); // Logged-in user
 
-    // Handle payment
-    // public function createPayment(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'product_id'       => 'required|integer',
-    //         'product_image'    => 'required|string',
-    //         'product_quantity' => 'required|integer|min:1',
-    //         'amount'           => 'required|numeric|min:1',
-    //         'address'          => 'required|string',
-    //         'paymentMethodId'  => 'required|string',
-    //     ]);
+    // Get all cart items for the user, including related product info
+    $cartItems = Cart::with('product')
+        ->where('customer_id', $customer->id)
+        ->get();
 
-    //     try {
-    //         $paymentIntent = $this->paymentService->createPayment($data);
+    return view('payment', compact('cartItems', 'customer'));
+}
 
-    //         return response()->json([
-    //             'success' => true,
-    //             'paymentIntent' => $paymentIntent,
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+    
+   public function processToPay(Request $request, $product_id)
+{
+    // Get the cart item for this customer and product
+    $cart_product = Cart::with('product')
+        ->where('customer_id', auth()->id())
+        ->where('product_id', $product_id)
+        ->first();
+
+    if (!$cart_product) {
+        return redirect()->route('cart.index')->with('error', 'Product not found in cart.');
+    }
+
+    // Calculate total amount (product price × quantity)
+    $totalAmount = $cart_product->product->product_price * $cart_product->quantity;
+
+    // Here you can redirect to your payment page or call a payment API
+    // For now, let's just return a view
+    return view('payment.checkout', [
+        'cart_product' => $cart_product,
+        'totalAmount' => $totalAmount
+    ]);
+}
+
+
+
      public function createPayment(Request $request)
     {
-        // Validate what comes from the form
-        $validated = $request->validate([
-            'product_id'       => 'required|integer',
+        // Validate
+        $request->validate([
+            'product_id' => 'required',
             'product_quantity' => 'required|integer|min:1',
-            'address'          => 'required|string|max:255',
-            'paymentMethodId'  => 'required|string', // 'cod' or 'pm_xxx' from Stripe.js
+            'amount' => 'required|numeric',
+            'address' => 'required|string',
+            'payment_method' => 'required|in:card,paypal,cod',
         ]);
 
-        // Always compute trusted values server-side (don’t trust hidden inputs)
-        $product = Product::findOrFail($validated['product_id']);
-        $qty     = $validated['product_quantity'];
-        $amount  = round($product->product_price * $qty, 2);
+        // Save to DB
+        $payment = Payment::create([
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+            'product_quantity' => $request->product_quantity,
+            'amount' => $request->amount,
+            'address' => $request->address,
+            'status' => $request->payment_method === 'cod' ? 'pending' : 'processing',
+        ]);
 
-        try {
-            $result = $this->paymentService->createPayment([
-                'user_id'          => Auth::id(),
-                'product_id'       => $product->id,
-                'product_image'    => $product->product_image, // server-side
-                'product_quantity' => $qty,
-                'amount'           => $amount,
-                'currency'         => 'usd',
-                'address'          => $validated['address'],
-                'paymentMethodId'  => $validated['paymentMethodId'],
-            ]);
-
-            // Handle response
-            if ($result['type'] === 'cod') {
-                return redirect()->route('checkout', $product->id)
-                    ->with('success', 'Order placed with Cash on Delivery!');
-            }
-
-            // Stripe path
-            $intent = $result['paymentIntent'];
-
-            if ($intent->status === 'requires_action' || $intent->status === 'requires_source_action') {
-                // 3DS or next action required. Send client secret back if using XHR,
-                // or redirect to a page that completes the action on client side.
-                return back()->with('info', 'Additional authentication required.')->with('client_secret', $intent->client_secret);
-            }
-
-            if ($intent->status === 'succeeded') {
-                return redirect()->route('checkout', $product->id)
-                    ->with('success', 'Payment succeeded!');
-            }
-
-            return back()->with('error', 'Unexpected payment status: ' . $intent->status);
-
-        } catch (\Throwable $e) {
-            return back()->with('error', $e->getMessage());
-        }
+        // Redirect to thank you page
+        return redirect()->route('thankyou', $payment->id);
     }
 }

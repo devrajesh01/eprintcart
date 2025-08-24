@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'product_name'        => 'required|string|max:255',
-            'product_category'    => 'required|string|max:255',
+            'product_category'    => 'required|string | max:255' ,
             'product_description' => 'required|string',
             'product_price'       => 'required|numeric|min:0',
             'product_quantity'    => 'required|integer|min:1',
@@ -112,4 +113,13 @@ class AdminController extends Controller
 
         return redirect()->route('list.products')->with('success', 'Product deleted successfully');
     }
+
+
+    public function showContacts()
+    {
+        $contacts = Contact::latest()->get();        
+        return view('admin.Showcontacts', compact('contacts'));
+    }
+
+
 }

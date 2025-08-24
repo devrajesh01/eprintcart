@@ -9,18 +9,19 @@ class PaymentService
 {
     public function __construct()
     {
+        // Load Stripe secret from config/services.php
         Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**
-     * $payload = [
-     *   'user_id', 'product_id', 'product_image', 'product_quantity',
-     *   'amount', 'currency' => 'usd', 'address', 'paymentMethodId' // 'cod' or 'pm_xxx'
-     * ]
+     * Create a payment (COD or Stripe).
+     *
+     * @param array $payload
+     * @return array
      */
     public function createPayment(array $payload)
     {
-        // COD flow (no Stripe)
+        // 1️⃣ COD flow (no Stripe)
         if ($payload['paymentMethodId'] === 'cod') {
             $payment = Payment::create([
                 'user_id'           => $payload['user_id'],
@@ -34,16 +35,19 @@ class PaymentService
                 'status'            => 'pending',
             ]);
 
-            return ['type' => 'cod', 'payment' => $payment];
+            return [
+                'type'    => 'cod',
+                'payment' => $payment,
+            ];
         }
 
-        // Stripe flow (expects real pm_xxx from Stripe.js)
+        // 2️⃣ Stripe flow (expects pm_xxx from Stripe.js)
         $paymentIntent = PaymentIntent::create([
-            'amount'               => (int) round($payload['amount'] * 100),
-            'currency'             => $payload['currency'] ?? 'usd',
-            'payment_method'       => $payload['paymentMethodId'],
-            'confirmation_method'  => 'manual',
-            'confirm'              => true,
+            'amount'              => (int) round($payload['amount'] * 100), // in cents
+            'currency'            => $payload['currency'] ?? 'usd',
+            'payment_method'      => $payload['paymentMethodId'],
+            'confirmation_method' => 'manual',
+            'confirm'             => true,
         ]);
 
         $payment = Payment::create([
@@ -55,9 +59,13 @@ class PaymentService
             'currency'          => $payload['currency'] ?? 'usd',
             'address'           => $payload['address'],
             'stripe_payment_id' => $paymentIntent->id,
-            'status'            => $paymentIntent->status, // 'succeeded', 'requires_action', etc.
+            'status'            => $paymentIntent->status, // succeeded, requires_action, etc.
         ]);
 
-        return ['type' => 'stripe', 'paymentIntent' => $paymentIntent, 'payment' => $payment];
+        return [
+            'type'          => 'stripe',
+            'paymentIntent' => $paymentIntent,
+            'payment'       => $payment,
+        ];
     }
 }

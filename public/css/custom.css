@@ -645,6 +645,10 @@ header.fixed.main-header {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     padding: 20px;
 }
+.product-preview h6 , .product-preview small {
+    font-size: 20px;
+    text-transform: capitalize;
+}
 .product-preview {
     display: flex;
     align-items: center;
@@ -654,8 +658,8 @@ header.fixed.main-header {
     border-radius: 10px;
 }
 .product-preview img {
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 90px;
     object-fit: cover;
     border-radius: 8px;
     margin-right: 15px;
@@ -1001,3 +1005,20 @@ header.fixed.main-header {
       color: #555;
       line-height: 1.7;
     }
+    .admin-menu .nav-link{
+        transition: all .3s;
+    }
+    .admin-menu .nav-link:hover{
+     background: #41416e;
+    border-radius: 10px;
+    }
+
+    .admin-menu .nav-link.active{
+         background: #41416e;
+    border-radius: 10px;
+
+    }
+
+     .admincontact-data a{
+        color: #0056b3;
+     }
