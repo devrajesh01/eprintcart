@@ -34,10 +34,15 @@
 
           {{-- Product preview --}}
           @php $subtotal = 0; @endphp
+
           @if(isset($order_product))
             {{-- Single product --}}
+            @php
+              $images = json_decode($order_product->product_image, true);
+              $firstImage = is_array($images) ? ($images[0] ?? 'default.png') : $order_product->product_image;
+            @endphp
             <div class="product-preview d-flex align-items-center mb-3">
-              <img src="{{ asset('uploads/products/' . $order_product->product_image) }}" alt="Product" width="200" class="me-3">
+              <img src="{{ asset('uploads/products/' . $firstImage) }}" alt="{{ $order_product->product_name }}" width="200" class="me-3">
               <div>
                 <h6 class="mb-1">{{ $order_product->product_name }}</h6>
                 <small class="text-muted">
@@ -49,11 +54,16 @@
             <input type="hidden" name="product_id[]" value="{{ $order_product->id }}">
             <input type="hidden" name="product_quantity[]" value="{{ $quantity }}">
             @php $subtotal += $order_product->product_price * $quantity; @endphp
+
           @elseif(isset($cartItems))
             {{-- Multiple products from cart --}}
             @foreach($cartItems as $item)
+              @php
+                $images = json_decode($item->product->product_image, true);
+                $firstImage = is_array($images) ? ($images[0] ?? 'default.png') : $item->product->product_image;
+              @endphp
               <div class="product-preview d-flex align-items-center mb-3">
-                <img src="{{ asset('uploads/products/' . $item->product->product_image) }}" width="100" class="me-3" alt="{{ $item->product->product_name }}">
+                <img src="{{ asset('uploads/products/' . $firstImage) }}" width="100" class="me-3" alt="{{ $item->product->product_name }}">
                 <div>
                   <h6 class="mb-1">{{ $item->product->product_name }}</h6>
                   <small class="text-muted">
@@ -187,33 +197,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const shipping = 4.99;
-  const tax = 2.00;
-
-  const qtyInput = document.getElementById("quantity");
-  const qtyLabel = document.getElementById("qty-label");
-  const subtotalEl = document.getElementById("summary-subtotal");
-  const totalEl = document.getElementById("summary-total");
-  const hiddenQuantity = document.getElementById("hidden-quantity");
-
-  if(qtyInput){
-    const price = parseFloat(qtyInput.dataset.price || 0);
-
-    function updateSummary() {
-      const qty = parseInt(qtyInput.value) || 1;
-      const subtotal = price * qty;
-      const total = subtotal + shipping + tax;
-
-      qtyLabel.textContent = qty;
-      if(subtotalEl) subtotalEl.textContent = subtotal.toFixed(2);
-      if(totalEl) totalEl.textContent = total.toFixed(2);
-      if(hiddenQuantity) hiddenQuantity.value = qty;
-    }
-
-    qtyInput.addEventListener("input", updateSummary);
-    updateSummary();
-  }
-
   const radios = document.querySelectorAll('input[name="paymentMethodId"]');
   const cardDetails = document.getElementById("card-details");
 

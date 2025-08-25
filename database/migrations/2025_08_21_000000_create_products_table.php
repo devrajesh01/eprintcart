@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('product_name');
             $table->text('product_description');
             $table->string('product_category');
-            $table->string('product_image')->nullable();
+            $table->json('product_image')->nullable();
             $table->integer('product_quantity');
             $table->decimal('product_price',10,2);
+
             $table->timestamps();
         });
     }

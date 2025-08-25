@@ -614,8 +614,7 @@ header.fixed.main-header {
 }
 .card-body {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between;    
     flex-direction: column;
 }
 @keyframes fadeUp {
