@@ -832,6 +832,7 @@ header.fixed.main-header {
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  justify-content: start;
 }
 
 .cart-table th {

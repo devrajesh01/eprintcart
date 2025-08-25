@@ -17,7 +17,14 @@ class Payment extends Model
         'amount',
         'currency',
         'address',
-        'stripe_payment_id',
+        'payment_method',
+        'transaction_id',
         'status',
+    ];
+
+    protected $casts = [
+        'product_id' => 'array',
+        'product_quantity' => 'array',
+        'product_image' => 'array', // since you also store images as JSON
     ];
 }

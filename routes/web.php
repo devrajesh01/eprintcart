@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::post('/cart/update/{id}', [HomeController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [HomeController::class, 'destroy'])->name('cart.remove');
     Route::get('/customer-cart', [HomeController::class, 'checkCart'])->name('customer.cart.index');
+    Route::get('/thank-you/{payment}', [PaymentController::class, 'thankYou'])->name('thankyou');
 });
 
 

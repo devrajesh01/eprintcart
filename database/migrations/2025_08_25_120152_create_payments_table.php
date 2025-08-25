@@ -14,14 +14,21 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
              $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('product_id');
+
+            // Arrays stored as JSON
+            $table->json('product_id');
             $table->string('product_image')->nullable();
-            $table->integer('product_quantity');
+            $table->json('product_quantity');
+
             $table->decimal('amount', 10, 2);
-            $table->string('currency')->default('usd');
+            $table->string('currency');   // no default value
             $table->string('address');
-            $table->string('stripe_payment_id')->nullable();
-            $table->string('status')->default('pending');
+
+            // Payment details
+            $table->string('payment_method')->nullable();   // cod, stripe, razorpay, paypal
+            $table->string('transaction_id')->nullable();   // gateway transaction id
+            $table->string('status')->default('pending');   // pending, success, failed
+
             $table->timestamps();
         });
     }
