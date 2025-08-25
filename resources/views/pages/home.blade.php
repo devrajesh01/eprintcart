@@ -12,18 +12,9 @@
       <div><img src="{{asset('images/slider4.jpg')}}" alt="Slide 2"></div>
           
     </div>
-    </div>
-
-    <!-- Fixed Content -->
-    {{-- <div class="banner-content">
-      <h1>Welcome to Our Website</h1>
-      <p>We deliver amazing products and services just for you.</p>
-      <a class="btnn btnn-blue" href="#">Get Started</a>
-    </div> --}}
+    </div>    
   </section>
-
 @include('utils.card')
-
   <section class="py-5">
   <div class="container">
     <div class="row align-items-center">

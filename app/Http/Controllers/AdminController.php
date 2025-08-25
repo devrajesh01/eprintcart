@@ -14,10 +14,25 @@ class AdminController extends Controller
         return view('Admin.AdminDashboard');
     }
 
-    public function AddProductPage(Request $request)
-    {
-        return view('Admin.AddProducts');
-    }
+    // public function AddProductPage(Request $request)
+    // {
+    //     return view('Admin.AddProducts');
+    // }
+
+
+public function AddProductPage()
+{
+    // Fetch distinct categories dynamically from the Product table
+    $categories = Product::query()
+        ->whereNotNull('product_category')
+        ->where('product_category', '<>', '')
+        ->distinct()
+        ->pluck('product_category')
+        ->toArray();
+
+    return view('Admin.AddProducts', compact('categories'));
+}
+
 
     // Store Products
     // public function StoreProducts(Request $request)
@@ -48,18 +63,19 @@ class AdminController extends Controller
     //     return redirect()->back()->with('success', 'Product added successfully!');
     // }
    
-
 public function StoreProducts(Request $request)
 {
+    // Validate request
     $request->validate([
         'product_name'        => 'required|string|max:255',
-        'product_category'    => 'required|string|max:255',
+        'product_category'    => 'nullable|string|max:255', // Make nullable, because user might use new_category
+        'new_category'        => 'nullable|string|max:255', // Validate new_category too
         'product_description' => 'required|string',
         'product_price'       => 'required|numeric|min:0',
         'product_quantity'    => 'required|integer|min:1',
         'product_image'       => 'required',
         'product_image.*'     => 'image|mimes:jpeg,png,jpg,gif|max:10048',
-        'product_tags'        => 'nullable|string', 
+        'product_tags'        => 'nullable|string',
     ]);
 
     // Handle multiple image upload
@@ -77,24 +93,32 @@ public function StoreProducts(Request $request)
     if ($request->filled('product_tags')) {
         $decoded = json_decode($request->product_tags, true);
         if (is_array($decoded)) {
-            $tagsArray = array_column($decoded, 'value'); // If using Tagify JSON
+            $tagsArray = array_column($decoded, 'value');
         } else {
-            $tagsArray = array_map('trim', explode(',', $request->product_tags)); // comma-separated
+            $tagsArray = array_map('trim', explode(',', $request->product_tags));
         }
     }
 
+    // Decide category: either use dropdown or new_category
+    $category = $request->filled('new_category') 
+        ? $request->new_category 
+        : $request->product_category;
+
+    // Save product
     Product::create([
         'product_name'        => $request->product_name,
-        'product_category'    => $request->product_category,
+        'product_category'    => $category, // <-- FIX: use $category here
         'product_description' => $request->product_description,
         'product_price'       => $request->product_price,
         'product_quantity'    => $request->product_quantity,
-        'product_image'       => json_encode($images),  // Save JSON
+        'product_image'       => json_encode($images),
         'product_tags'        => json_encode($tagsArray),
     ]);
 
     return redirect()->back()->with('success', 'Product added successfully!');
 }
+
+
 
 
 
