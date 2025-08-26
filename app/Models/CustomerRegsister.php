@@ -14,6 +14,7 @@ class CustomerRegsister extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'user_type',
         'password',
     ];

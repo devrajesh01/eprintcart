@@ -17,6 +17,10 @@ class Payment extends Model
         'amount',
         'currency',
         'address',
+        'land_mark',
+        'city',
+        'state',
+        'pincode',
         'payment_method',
         'transaction_id',
         'status',
@@ -27,4 +31,10 @@ class Payment extends Model
         'product_quantity' => 'array',
         'product_image' => 'array', // since you also store images as JSON
     ];
+
+    public function user()
+{
+    return $this->belongsTo(CustomerRegsister::class, 'user_id');
+}
+
 }

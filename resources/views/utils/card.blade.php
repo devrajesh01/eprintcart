@@ -1,8 +1,8 @@
 <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Our Products</h2>
+        <h2 class="text-center mb-2 fw-bold">Featured Products</h2>
         <div class="row g-4">            
-            @foreach ($products as $product)
+            @foreach ($products->take(6) as $product)
                 @php                    
                     $images = $product->product_image ? json_decode($product->product_image, true) : [];
                     $tags = $product->product_tags ? json_decode($product->product_tags, true) : [];
@@ -40,7 +40,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('product.page', ['id' => $product->id]) }}" class="btn btn-custom">
+                                <a href="{{ route('product.page', ['id' => $product->id]) }}" class="btn btn-theme">
                                     View Details
                                 </a>
                             </div>

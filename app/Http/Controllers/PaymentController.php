@@ -73,6 +73,10 @@ class PaymentController extends Controller
             'product_quantity.*' => 'integer|min:1',
             'amount' => 'required|numeric',
             'address' => 'required|string',
+            'land_mark' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'pincode' => 'required|string',
             'payment_method' => 'required|in:stripe,paypal,cod',
         ]);
 
@@ -106,8 +110,7 @@ class PaymentController extends Controller
         } elseif ($request->payment_method === 'cod') {
             $status = 'pending';
         }
-
-        // dd($request);
+        
         // Save payment record
         $payment = Payment::create([
             'user_id' => auth()->id(),
@@ -115,8 +118,12 @@ class PaymentController extends Controller
             'product_image' => $request->product_image ?? null,
             'product_quantity' => $request->product_quantity,
             'amount' => $request->amount,
-            'currency' => 'usd',
+            'currency' => 'INR',
             'address' => $request->address,
+            'land_mark' => $request-> land_mark,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pincode'=> $request->pincode,
             'payment_method' => $request->payment_method,
             'transaction_id' => $transactionId,
             'status' => $status,
@@ -125,27 +132,44 @@ class PaymentController extends Controller
         return redirect()->route('thankyou', $payment->id)->with('success', 'Payment processed successfully!');
     }
 
+
     public function thankYou(Payment $payment)
     {
-        // If your product_id and product_quantity are arrays, use them directly
-        $productIds = $payment->product_id;      // already an array
-        $quantities = $payment->product_quantity; // already an array
+        // product_id and product_quantity should already be arrays
+        $productIds = $payment->product_id;
+        $quantities = $payment->product_quantity;
 
         $products = Product::whereIn('id', $productIds)->get();
 
         $orderedItems = [];
         foreach ($products as $index => $product) {
+            // Safely get first image
+            $image = null;
+
+            if (is_array($product->product_image)) {
+                $image = $product->product_image[0] ?? 'default.png';
+            } else {
+                // if stored as JSON string, decode it
+                $decoded = json_decode($product->product_image, true);
+                if (is_array($decoded)) {
+                    $image = $decoded[0] ?? 'default.png';
+                } else {
+                    // plain string case
+                    $image = $product->product_image ?? 'default.png';
+                }
+            }
+
             $orderedItems[] = [
                 'name' => $product->product_name,
-                'image' => is_array($product->product_image) ? ($product->product_image[0] ?? 'default.png') : $product->product_image,
+                'image' => $image,
                 'quantity' => $quantities[$index] ?? 1,
                 'price' => $product->product_price,
             ];
         }
 
         return view('product.thankyou', [
-            'payment' => $payment,
-            'orderedItems' => $orderedItems,
+            'payment'       => $payment,
+            'orderedItems'  => $orderedItems,
             'transactionId' => $payment->transaction_id,
         ]);
     }

@@ -84,16 +84,17 @@
                           <label for="address">Address</label>
                             <input type="text" name="address" class="form-control" placeholder="Address" required>
                         </div>
+                        <div class="col-12">
+                          <label for="address">Land Mark</label>
+                            <input type="text" name="land_mark" class="form-control" placeholder="Land Mark" required>
+                        </div>
                         <div class="col-md-6">
                           <label for="city">City</label>
                             <input type="text" name="city" class="form-control" placeholder="City" required>
                         </div>
                         <div class="col-md-4">
-                            <select class="form-select" name="state" required>
+                            <select class="form-select" name="state" id="stateSelect" required>
                                 <option value="">Choose...</option>
-                                <option>NY</option>
-                                <option>CA</option>
-                                <option>TX</option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -184,6 +185,28 @@ document.addEventListener("DOMContentLoaded", function () {
             form.submit();
         }
     });
+});
+
+
+
+//State handeling
+const states = [
+  "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa",
+  "Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala",
+  "Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
+  "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+  "Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands",
+  "Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Delhi","Jammu and Kashmir",
+  "Ladakh","Lakshadweep","Puducherry"
+];
+
+const select = document.getElementById('stateSelect');
+
+states.forEach(state => {
+    const option = document.createElement('option');
+    option.value = state;
+    option.text = state;
+    select.appendChild(option);
 });
 </script>
 

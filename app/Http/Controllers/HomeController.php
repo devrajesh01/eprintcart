@@ -6,13 +6,14 @@ use App\Models\Cart;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Razorpay\Api\Customer;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::all();
-        // dd($products);
+        $products = Product::orderBy('id', 'desc')->get();
+        
         return view('pages.home', compact('products'));
     }
 
@@ -22,6 +23,20 @@ class HomeController extends Controller
         return view('product.productpage', compact('product'));
     }
 
+
+    // Search Product
+    public function search(Request $request)
+{
+    $query = $request->get('query');
+
+    $products = Product::where('product_name', 'LIKE', "%{$query}%")
+        ->orWhere('product_category', 'LIKE', "%{$query}%")
+        ->orWhere('product_tags', 'LIKE', "%{$query}%")
+        ->limit(10) // show only 10 results for speed
+        ->get();
+
+    return response()->json($products);
+}
 
 
     public function addToCart(Request $request, $id)
@@ -153,8 +168,24 @@ class HomeController extends Controller
     }
     public function showShop(Request $request)
     {
-        return view('product.shop');
+        $products = Product::all();
+        
+        return view('product.shop', compact('products'));
     }
+
+//     public function showShop(Request $request)
+// {
+//     // Fetch pre-designed products
+//     $preProducts = Product::where('product_type', 'pre-designed')->get();
+
+//     // Fetch customizable products
+//     $customProducts = Product::where('product_type', 'customised')->get();
+
+//     return view('product.shop', compact('preProducts', 'customProducts'));
+// }
+
+
+
     public function showPrivacy(Request $request)
     {
         return view('pages.privacy');
@@ -162,5 +193,9 @@ class HomeController extends Controller
     public function showTerms(Request $request)
     {
         return view('pages.terms');
+    }
+    public function userProfile(Request $request){
+        return view('pages.Profile');
+
     }
 }

@@ -27,6 +27,10 @@ Route::get('/privacy-policy', [HomeController::class, 'showPrivacy'])->name('pri
 Route::get('/terms-conditions', [HomeController::class, 'showTerms'])->name('terms.page');
 Route::get('product/{id}', [HomeController::class, 'productPage'])->name('product.page');
 Route::post('/contact/store', [HomeController::class, 'storeContact'])->name('contact.store');
+// ✅ NEW OTP routes
+Route::get('/verify-otp', [RegisterController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('otp.verify');
+Route::get('/search-products', [HomeController::class, 'search'])->name('products.search');
 
 
 /*
@@ -51,6 +55,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::delete('/cart/remove/{id}', [HomeController::class, 'destroy'])->name('cart.remove');
     Route::get('/customer-cart', [HomeController::class, 'checkCart'])->name('customer.cart.index');
     Route::get('/thank-you/{payment}', [PaymentController::class, 'thankYou'])->name('thankyou');
+    Route::get('user/profile', [HomeController::class, 'userProfile'])->name('user.profile');
 });
 
 
@@ -69,4 +74,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/dashboard/product-list/update-product/{id}', [AdminController::class, 'UpdateProduct'])->name('product.update');
     Route::delete('/delete-product/{id}', [AdminController::class, 'DeleteProduct'])->name('product.delete');
     Route::get('/admin/dashboard/contacts', [AdminController::class, 'showContacts'])->name('admin.contacts');
+    Route::get('/admin/dashboard/orders-list', [AdminController::class, 'orders'])->name('admin.orders');
 });

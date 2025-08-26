@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -34,12 +35,13 @@ class AdminController extends Controller
         // Validate request
         $request->validate([
             'product_name'        => 'required|string|max:255',
-            'product_category'    => 'nullable|string|max:255', // Make nullable, because user might use new_category
-            'new_category'        => 'nullable|string|max:255', // Validate new_category too
+            'product_category'    => 'nullable|string|max:255', 
+            'new_category'        => 'nullable|string|max:255', 
             'product_description' => 'required|string',
             'product_price'       => 'required|numeric|min:0',
             'product_quantity'    => 'required|integer|min:1',
             'product_image'       => 'required',
+            'product_type'        => 'required',
             'product_image.*'     => 'image|mimes:jpeg,png,jpg,gif|max:10048',
             'product_tags'        => 'nullable|string',
         ]);
@@ -76,6 +78,7 @@ class AdminController extends Controller
             'product_category'    => $category, // <-- FIX: use $category here
             'product_description' => $request->product_description,
             'product_price'       => $request->product_price,
+            'product_type'        => $request->product_type,
             'product_quantity'    => $request->product_quantity,
             'product_image'       => json_encode($images),
             'product_tags'        => json_encode($tagsArray),
@@ -83,11 +86,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Product added successfully!');
     }
-
-
-
-
-
 
 
     public function ListProductPage(Request $request)
@@ -185,5 +183,12 @@ class AdminController extends Controller
     {
         $contacts = Contact::latest()->get();
         return view('Admin.Showcontacts', compact('contacts'));
+    }
+
+
+    public function orders(Request $request){
+
+        $ordered_product = Payment::all();
+        return view('Admin.Orders',compact('ordered_product'));
     }
 }

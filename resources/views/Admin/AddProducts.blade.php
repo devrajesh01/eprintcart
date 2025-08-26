@@ -40,16 +40,6 @@
                                     value="{{ old('product_name') }}" required>
                             </div>
 
-                            <!-- Product Category -->
-                            {{-- <select name="product_category" id="product_category" class="form-select">
-                                <option value="">-- Select Category --</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category }}"
-                                        {{ old('product_category') == $category ? 'selected' : '' }}>
-                                        {{ $category }}
-                                    </option>
-                                @endforeach
-                            </select> --}}
                             <div class="mb-3">
                                 <label for="product_category" class="form-label">Product Category</label>
                                 <select name="product_category" id="product_category" class="form-select">
@@ -63,7 +53,6 @@
                                 </select>
                             </div>
 
-
                             <!-- New category field -->
                             <input type="text" name="new_category" id="new_category" class="form-control mt-2"
                                 placeholder="Or enter new category">
@@ -76,6 +65,18 @@
                                     }
                                 });
                             </script>
+
+                            <div class="mb-3">
+                                <label for="product_type" class="form-label">Product Type</label>
+                                <select name="product_type" id="product_type" class="form-select" required>
+                                    <option value="" disabled selected>-- Select Product Type --</option>
+                                    <option value="customizable" {{ old('product_type') == 'customizable' ? 'selected' : '' }}>Customizable Product</option>
+                                    <option value="predesigned" {{ old('product_type') == 'predesigned' ? 'selected' : '' }}>Pre-designed Product</option>
+                                </select>
+                            </div>
+
+
+
                             <!-- Product Price -->
                             <div class="mb-3">
                                 <label for="product_price" class="form-label">Product Price ($)</label>

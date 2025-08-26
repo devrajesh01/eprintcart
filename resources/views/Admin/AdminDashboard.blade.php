@@ -25,15 +25,15 @@
           </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="#" class="nav-link text-white ">
+          <a href="{{route('admin.orders')}}" class="nav-link text-white ">
             <i class="fa-solid fa-clipboard-list me-2"></i> Orders
           </a>
         </li>
-        <li class="nav-item mb-2">
+        {{-- <li class="nav-item mb-2">
           <a href="#" class="nav-link text-white ">
             <i class="fa-solid fa-cog me-2"></i> Settings
           </a>
-        </li>       
+        </li>        --}}
       </ul>
      
     </div>
