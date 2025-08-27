@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Contact;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Razorpay\Api\Customer;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
@@ -57,18 +59,34 @@ class HomeController extends Controller
                 'quantity'    => $quantity
             ]);
         }
-
+        
         return redirect()->route('cart.index')->with('success', 'Product added to cart!');
     }
+
+
+
+    
+   
 
 
 
     // Show cart
     public function cartIndex()
     {
-        $cartItems = Cart::with('product')->get();
+        // $cartItems = Cart::with('product')->get();
+         $customerId = Auth::id(); 
+    // Or Auth::guard('customer')->id() if you have a separate guard
+
+    $cartItems = Cart::with('product')
+        ->where('customer_id', $customerId)
+        ->get();
         return view('product.cart', compact('cartItems'));
     }
+
+
+
+
+
 
     // Update quantity
     public function update(Request $request, $id)
@@ -194,8 +212,15 @@ class HomeController extends Controller
     {
         return view('pages.terms');
     }
-    public function userProfile(Request $request){
-        return view('pages.Profile');
 
-    }
+
+    public function userProfile()
+{
+    $user_id = Auth::id(); // returns the logged-in user's ID
+    $order_data = Payment::where('user_id', $user_id)->get();
+    // dd($order_data);
+
+    return view('pages.Profile', compact('order_data'));
+}
+
 }

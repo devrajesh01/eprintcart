@@ -91,13 +91,23 @@
         </div>
       </div>
     </div>
+    {{-- @auth
+    @if(Auth::user()->user_type === 'customer')
+    <div class="profile">
+      <a href="{{route('user.profile',Auth::user()->id)}}"><i class="fa-solid fa-user"></i></a>
+    </div>
+    @endif
+    @endauth --}}
     @auth
-        @if(Auth::user()->user_type === 'customer')
-            <div class="profile">
-                <a href="{{route('user.profile')}}"><i class="fa-solid fa-user"></i></a>
-            </div>
-        @endif
-       @endauth
+      @if(Auth::user()->user_type === 'customer')
+        <div class="profile">
+          <a href="{{ route('user.profile') }}">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        </div>
+      @endif
+    @endauth
+
   </nav>
 
 </header>

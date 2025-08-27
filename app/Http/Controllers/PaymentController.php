@@ -63,9 +63,10 @@ class PaymentController extends Controller
         ]);
     }
 
+
+
     public function createPayment(Request $request)
     {
-
         $request->validate([
             'product_id' => 'required|array',
             'product_id.*' => 'integer|exists:products,id',
@@ -77,7 +78,7 @@ class PaymentController extends Controller
             'city' => 'required|string',
             'state' => 'required|string',
             'pincode' => 'required|string',
-            'payment_method' => 'required|in:stripe,paypal,cod',
+            'payment_method' => 'required|in:stripe,paypal,razorpay,cod',
         ]);
 
         $status = 'pending';
@@ -89,7 +90,7 @@ class PaymentController extends Controller
 
                 $charge = \Stripe\Charge::create([
                     "amount" => $request->amount * 100,
-                    "currency" => "usd",
+                    "currency" => "INR",
                     "source" => $request->stripeToken,
                     "description" => "Order payment by " . auth()->user()->email,
                 ]);
@@ -100,77 +101,75 @@ class PaymentController extends Controller
                 return back()->with('error', $e->getMessage());
             }
         } elseif ($request->payment_method === 'paypal') {
-            // integrate PayPal API
             $status = 'processing';
             $transactionId = 'PAYPAL_ORDER_ID_HERE';
         } elseif ($request->payment_method === 'razorpay') {
-            // integrate Razorpay API
             $status = 'paid';
             $transactionId = 'RAZORPAY_PAYMENT_ID_HERE';
         } elseif ($request->payment_method === 'cod') {
             $status = 'pending';
         }
-        
-        // Save payment record
+
+        // ✅ Always fetch the first image of each product
+        $productImages = [];
+        foreach ($request->product_id as $id) {
+            $product = Product::find($id);
+            if ($product) {
+                $imgs = $product->product_image ? json_decode($product->product_image, true) : [];
+                $productImages[] = $imgs[0] ?? 'default.png';
+            }
+        }
+
+        // ✅ Save payment
         $payment = Payment::create([
-            'user_id' => auth()->id(),
-            'product_id' => $request->product_id,
-            'product_image' => $request->product_image ?? null,
-            'product_quantity' => $request->product_quantity,
-            'amount' => $request->amount,
-            'currency' => 'INR',
-            'address' => $request->address,
-            'land_mark' => $request-> land_mark,
-            'city' => $request->city,
-            'state' => $request->state,
-            'pincode'=> $request->pincode,
-            'payment_method' => $request->payment_method,
-            'transaction_id' => $transactionId,
-            'status' => $status,
+            'user_id'          => auth()->id(),
+            'product_id'       => json_encode($request->product_id),
+            'product_quantity' => json_encode($request->product_quantity),
+            'product_image'    => json_encode($productImages),
+            'amount'           => $request->amount,
+            'currency'         => 'INR',
+            'address'          => $request->address,
+            'land_mark'        => $request->land_mark,
+            'city'             => $request->city,
+            'state'            => $request->state,
+            'pincode'          => $request->pincode,
+            'payment_method'   => $request->payment_method,
+            'transaction_id'   => $transactionId,
+            'status'           => $status,
         ]);
 
         return redirect()->route('thankyou', $payment->id)->with('success', 'Payment processed successfully!');
     }
 
 
-    public function thankYou(Payment $payment)
-    {
-        // product_id and product_quantity should already be arrays
-        $productIds = $payment->product_id;
-        $quantities = $payment->product_quantity;
+   public function thankYou(Payment $payment)
+{
+    // Decode stored JSON arrays from Payment table
+    $productIds = json_decode($payment->product_id, true) ?? [];
+    $quantities = json_decode($payment->product_quantity, true) ?? [];
+    $images     = json_decode($payment->product_image, true) ?? [];
 
-        $products = Product::whereIn('id', $productIds)->get();
+    // Fetch products from DB
+    $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
-        $orderedItems = [];
-        foreach ($products as $index => $product) {
-            // Safely get first image
-            $image = null;
+    $orderedItems = [];
 
-            if (is_array($product->product_image)) {
-                $image = $product->product_image[0] ?? 'default.png';
-            } else {
-                // if stored as JSON string, decode it
-                $decoded = json_decode($product->product_image, true);
-                if (is_array($decoded)) {
-                    $image = $decoded[0] ?? 'default.png';
-                } else {
-                    // plain string case
-                    $image = $product->product_image ?? 'default.png';
-                }
-            }
+    foreach ($productIds as $index => $id) {
+        $product = $products[$id] ?? null;
 
-            $orderedItems[] = [
-                'name' => $product->product_name,
-                'image' => $image,
-                'quantity' => $quantities[$index] ?? 1,
-                'price' => $product->product_price,
-            ];
-        }
-
-        return view('product.thankyou', [
-            'payment'       => $payment,
-            'orderedItems'  => $orderedItems,
-            'transactionId' => $payment->transaction_id,
-        ]);
+        $orderedItems[] = [
+            'name'     => $product->product_name ?? 'Unknown Product',
+            'price'    => $product->product_price ?? 0,   // fixed column name
+            'image'    => $images[$index] ?? 'default.png',
+            'quantity' => $quantities[$index] ?? 1,
+        ];
     }
+
+    return view('product.thankyou', [
+        'payment'       => $payment,
+        'transactionId' => $payment->transaction_id ?? 'N/A',
+        'orderedItems'  => $orderedItems,
+    ]);
+}
+
 }

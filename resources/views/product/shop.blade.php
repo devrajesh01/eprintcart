@@ -28,7 +28,8 @@
               @endphp
 
               <div class="col-md-4">
-                <div class="card product-card shadow-sm h-100">
+                <a href="{{ route('product.page', ['id' => $product->id]) }}">
+                  <div class="card product-card shadow-sm h-100">
                   <div class="product-img-wrapper">
                     <img src="{{ asset('uploads/products/' . $firstImage) }}" class="card-img-top"
                       alt="{{ $product->product_name }}">
@@ -40,6 +41,7 @@
                     <a href="{{ route('product.page', ['id' => $product->id]) }}" class="btn btn-theme">View Details</a>
                   </div>
                 </div>
+                </a>
               </div>
             @endforeach
           </div>
@@ -82,7 +84,8 @@
                   $firstImage = $images[0] ?? 'default.png';
                 @endphp
                 <div class="col-md-4">
-                  <div class="card product-card shadow-sm h-100">
+                 <a href="{{ route('product.page', ['id' => $product->id]) }}">
+                   <div class="card product-card shadow-sm h-100">
                     <div class="product-img-wrapper">
                       <img src="{{ asset('uploads/products/' . $firstImage) }}" class="card-img-top"
                         alt="{{ $product->product_name }}">
@@ -94,6 +97,7 @@
                       <a href="{{ route('product.page', ['id' => $product->id]) }}" class="btn btn-theme">Customize</a>
                     </div>
                   </div>
+                 </a>
                 </div>
               @endif
             @endforeach

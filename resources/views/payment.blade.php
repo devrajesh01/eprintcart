@@ -143,7 +143,7 @@
 
                     {{-- Hidden fields --}}
                     <input type="hidden" name="amount" value="{{ $subtotal + 4.99 + 2.00 }}">
-                    <input type="hidden" name="currency" value="usd">
+                    <input type="hidden" name="currency" value="INR">
 
                     {{-- Stripe Card --}}
                     <div id="card-element" class="mb-3" style="display:none;"></div>
