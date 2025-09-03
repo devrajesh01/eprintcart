@@ -65,14 +65,26 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 2
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'AdminIndex'])->name('admin.dashboard');
-    Route::get('/admin/dashboard/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
-    Route::post('/store-data', [AdminController::class, 'StoreProducts'])->name('products.store');
-    Route::get('/admin/dashboard/product-list', [AdminController::class, 'ListProductPage'])->name('list.products');
-    Route::get('/admin/dashboard/product-list/edit-product/{id}', [AdminController::class, 'EditProduct'])->name('product.edit');
-    Route::put('/admin/dashboard/product-list/update-product/{id}', [AdminController::class, 'UpdateProduct'])->name('product.update');
-    Route::delete('/delete-product/{id}', [AdminController::class, 'DeleteProduct'])->name('product.delete');
-    Route::get('/admin/dashboard/contacts', [AdminController::class, 'showContacts'])->name('admin.contacts');
-    Route::get('/admin/dashboard/orders-list', [AdminController::class, 'orders'])->name('admin.orders');
-});
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'AdminIndex'])->name('admin.dashboard');
+//     Route::get('/admin/dashboard/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
+//     Route::post('/store-data', [AdminController::class, 'StoreProducts'])->name('products.store');
+//     Route::get('/admin/dashboard/product-list', [AdminController::class, 'ListProductPage'])->name('list.products');
+//     Route::get('/admin/dashboard/product-list/edit-product/{id}', [AdminController::class, 'EditProduct'])->name('product.edit');
+//     Route::put('/admin/dashboard/product-list/update-product/{id}', [AdminController::class, 'UpdateProduct'])->name('product.update');
+//     Route::delete('/delete-product/{id}', [AdminController::class, 'DeleteProduct'])->name('product.delete');
+//     Route::get('/admin/dashboard/contacts', [AdminController::class, 'showContacts'])->name('admin.contacts');
+//     Route::get('/admin/dashboard/orders-list', [AdminController::class, 'orders'])->name('admin.orders');
+// });
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin/dashboard')->group(function () {
+        Route::get('/', [AdminController::class, 'AdminIndex'])->name('admin.dashboard');
+        Route::get('/add-product', [AdminController::class, 'AddProductPage'])->name('add.product');
+        Route::post('/store-data', [AdminController::class, 'StoreProducts'])->name('products.store');
+        Route::get('/product-list', [AdminController::class, 'ListProductPage'])->name('list.products');
+        Route::get('/product-list/edit-product/{id}', [AdminController::class, 'EditProduct'])->name('product.edit');
+        Route::put('/product-list/update-product/{id}', [AdminController::class, 'UpdateProduct'])->name('product.update');
+        Route::delete('/delete-product/{id}', [AdminController::class, 'DeleteProduct'])->name('product.delete');
+        Route::get('/contacts', [AdminController::class, 'showContacts'])->name('admin.contacts');
+        Route::get('/orders-list', [AdminController::class, 'orders'])->name('admin.orders');
+    });

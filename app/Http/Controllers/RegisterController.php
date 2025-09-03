@@ -51,28 +51,6 @@ class RegisterController extends Controller
         return view('admin.dashboard');
     }
 
-    //     public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required|min:6',
-    //     ]);
-
-    //     // Attempt login with default "web" guard
-    //     if (Auth::attempt($request->only('email', 'password'))) {
-    //         $user = Auth::user();
-
-    //         if ($user->user_type === 'customer') {
-    //             return redirect()->route('home')
-    //                 ->with('success', 'Welcome, ' . $user->name);
-    //         } elseif ($user->user_type === 'admin') {
-    //             return redirect()->route('admin.dashboard')
-    //                 ->with('success', 'Welcome Admin, ' . $user->name);
-    //         }
-    //     }
-
-    //     return back()->with('error', 'Invalid email or password.');
-    // }
     public function login(Request $request)
     {
         $request->validate([
